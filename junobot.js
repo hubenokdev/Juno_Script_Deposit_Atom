@@ -9,6 +9,7 @@ import { GasPrice } from '@cosmjs/stargate';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { history } from './history.js'
 import moment from 'moment'
+import { ibcWalletState, walletState } from './state/atoms/walletAtoms'
 
 
 //const RPC = "https://rpc.junomint.com:443";
@@ -214,9 +215,14 @@ async function main_coshub() {
     const {atombalance} = await getAtomBalance()
     console.log("cosmost - atom: " + atombalance)
 
-    if (atombalance > 0) {
-        
-    }
+    // if (atombalance <= 0) {
+    //     return;
+    // }
+
+    // const { address: ibcAddress, client: ibcClient } =
+    //     useRecoilValue(ibcWalletState1)
+
+    //ibcClient.sendIbcTokens()
 }
 
 async function main() {
