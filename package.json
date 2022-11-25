@@ -1,26 +1,49 @@
 {
-  "name": "newairdrop",
-  "version": "1.0.0",
-  "description": "export votes from transaction history of cosmos rpc endpoints",
-  "main": "main.js",
-  "type": "module",
-  "scripts": {
-    "dev": "node main.js",
-    "find-all-voters": "node find_all_voters.js",
-    "find-unique-voters": "node find_unique_voters.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "@nouns/bots",
+  "private": true,
+  "version": "0.1.0",
+  "description": "nouns b4ackend bots",
+  "author": "Nounders",
+  "homepage": "https://gnars.wtf/",
+  "license": "GPL-3.0",
+  "main": "src/index.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
   },
-  "author": "",
-  "license": "ISC",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "nodemon src/index.ts",
+    "format": "prettier 'src/**/*.ts' --write"
+  },
+  "devDependencies": {
+    "@types/ioredis": "^4.26.4",
+    "@types/node": "^18.11.9",
+    "@types/sharp": "^0.30.0",
+    "@types/tmp": "^0.2.1",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.1.2"
+  },
   "dependencies": {
-    "@cosmjs/cosmwasm-stargate": "^0.27.1",
-    "@cosmjs/encoding": "^0.27.1",
-    "@cosmjs/proto-signing": "^0.27.1",
-    "@cosmjs/stargate": "^0.27.1",
-    "@cosmjs/tendermint-rpc": "^0.27.1",
-    "axios": "^0.26.0",
-    "fs": "^0.0.1-security",
-    "moment": "^2.29.1",
-    "package": "^1.0.1"
+    "@cosmjs/cosmwasm-stargate": "^0.29.4",
+    "@cosmjs/proto-signing": "^0.29.4",
+    "@cosmjs/stargate": "^0.29.4",
+    "@nouns/contracts": "^0.1.3",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "axios": "^0.26.1",
+    "discord.js": "^12.5.3",
+    "dotenv": "^8.2.0",
+    "react-dom": "^18.2.0",
+    "recoil": "^0.7.6",
+    "sharp": "^0.28.3",
+    "tmp": "^0.2.1",
+    "ts-node": "^10.7.0",
+    "ts-try": "^0.2.0",
+    "typescript": "4.5",
+    "web3": "^1.7.1"
   }
 }
