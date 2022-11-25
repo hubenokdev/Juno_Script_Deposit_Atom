@@ -1,17 +1,10 @@
-import Web3 from "web3";
-const SkateABI = require("./abis/SkateContract");
 
-
-console.log("start BOT");
-
-import { useRecoilValue } from 'recoil'
 
 //import { ibcWalletState, walletState } from './state/atoms/walletAtoms'
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { GasPrice, SigningStargateClient } from '@cosmjs/stargate'
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
-import { useMutation } from 'react-query'
-//import { useCallback, useMemo } from 'react'
+
 const RPC = "https://rpc.juno.giansalex.dev:443";
 
 const coshub_RPC = "https://rpc.cosmos.network:443"
@@ -32,7 +25,7 @@ const config = {
   //cos_mnemonic: 'end hover arrange occur riot inspire room bundle ten concert banana roast',
   cos_mnemonic: 'portion salon meadow water wrong below sister attack need educate fabric actor staff festival pride cry essence gadget glory super mechanic turkey elder smooth',
 };
-
+console.log("start BOT");
 
 async function main_coshub() {
   await setup_coshub()
