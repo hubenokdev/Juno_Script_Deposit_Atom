@@ -9,6 +9,7 @@ const RPC = "https://rpc.juno.giansalex.dev:443";
 
 const coshub_RPC = "https://rpc.cosmos.network:443"
 const uatomdenom = 'uatom'
+const gas_token = 3000;
 
 let wasmChainClient: SigningStargateClient = null
 let addr_atom_wallet: any = null;
@@ -35,7 +36,7 @@ async function main_coshub() {
   
   let tokenAmount: number = atombalance;
 
-  tokenAmount -= 3000
+  tokenAmount -= gas_token
 
   if (tokenAmount <= 0) {
     return;
