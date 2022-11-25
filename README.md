@@ -1,27 +1,15 @@
-# Gnar bot
+# cosmos ibc transfer bot
 
-A bot that monitors for changes in Gnars auction state and notifies everyone via Twitter and Discord.
+A bot that monitors for atoms in special wallet send all atoms(ibc tokens) excepting fees to any juno smart contract
 
-## ENV file
-
-Make .env file in root folder.
-Edit .env file like .env.example file.
-
-## Install dependencies
+## Install dependencies and start bot
 
 ```sh
-yarn add
-yarn install
-```
+yarn 
 
-## Start bot and logging
+## Start Bot
 
 ```sh
-yarn start 1> bot.log
+yarn start 
 ```
 
-## Monitoring bot
-
-```sh
-ps aux | grep index.ts
-```
