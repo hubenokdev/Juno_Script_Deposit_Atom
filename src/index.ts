@@ -113,7 +113,7 @@ async function getAtomBalance() {
 }
 
 async function main () {
-  //while (true) 
+  while (true) 
   {
     console.log("======================================")
     try {
@@ -122,7 +122,7 @@ async function main () {
         console.log(error)
     }
     console.log("====>    Waiting 1min")
-    //await sleep(60000) 
+    await sleep(6000) 
   }  
 }
 
