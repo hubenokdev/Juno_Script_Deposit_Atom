@@ -12,11 +12,14 @@ const uatomdenom = 'uatom'
 const gas_token = 3000;
 
 let wasmChainClient: SigningStargateClient = null
-let addr_atom_wallet: any = null;
-let signingClient: any = null;
+let addr_atom_wallet_for_juno: any = null;
+let addr_atom_wallet_for_osmo: any = null;
 
-const addr_juno_wallet = 'juno1g0r0qdz6x0krgsg7vgvtruv7xrtpdah66fxshvxcchal3wtzq3ystr5jht';
-const addr_osmo_wallet = 'osmo1czyqlaj5q4ug006veryuffaxj25jayzj7t9qs4yyssp4m9hjkhus37gnyl';
+let signingClient_for_juno: any = null;
+let signingClient_for_osmo: any = null;
+
+const addr_juno_recipient = 'juno1g0r0qdz6x0krgsg7vgvtruv7xrtpdah66fxshvxcchal3wtzq3ystr5jht';
+const addr_osmo_recipient = 'osmo1czyqlaj5q4ug006veryuffaxj25jayzj7t9qs4yyssp4m9hjkhus37gnyl';
 
 const config = {
   endpoint: RPC,
@@ -24,13 +27,13 @@ const config = {
   atomDenom: uatomdenom,
   gasAPrice: GasPrice.fromString(`0.003${uatomdenom}`),
   //cos_mnemonic: 'end hover arrange occur riot inspire room bundle ten concert banana roast',
-  cos_mnemonic: 'portion salon meadow water wrong below sister attack need educate fabric actor staff festival pride cry essence gadget glory super mechanic turkey elder smooth',
+  cos_mnemonic_for_juno: 'portion salon meadow water wrong below sister attack need educate fabric actor staff festival pride cry essence gadget glory super mechanic turkey elder smooth',
+  cos_mnemonic_for_osmo: 'portion salon meadow water wrong below sister attack need educate fabric actor staff festival pride cry essence gadget glory super mechanic turkey elder smooth',
 };
 console.log("start BOT");
 
-async function main_coshub() {
-  await setup_coshub()
-  const {atombalance} = await getAtomBalance()
+async function main_coshub(addr_atom_wallet, signingClient, addr_recipient, sourceChannel, mnemonic) {
+  const {atombalance} = await getAtomBalance(signingClient, addr_atom_wallet)
   console.log("cosmost - atom: " + atombalance)
 
   
@@ -44,12 +47,11 @@ async function main_coshub() {
 
   const timeout = Math.floor(new Date().getTime() / 1000) + 1600
 
-  console.log("Sending " + tokenAmount + 'atom to ' + addr_juno_wallet)
+  console.log("Sending " + tokenAmount + 'atom to ' + addr_recipient)
 
   return await wasmChainClient.sendIbcTokens(
     addr_atom_wallet,
-    addr_juno_wallet,
-    //addr_osmo_wallet,
+    addr_recipient,
     {
       amount: tokenAmount.toString()
       // convertDenomToMicroDenom(
@@ -61,19 +63,17 @@ async function main_coshub() {
       denom: 'uatom' //tokenInfo.denom,
     },
     'transfer',
-    'channel-207', //juno channel
+    sourceChannel, //juno channel
     //'channel-141', //osmosis channel
     undefined,
     timeout,
     'auto'
   )
-
 }
 
+async function setup_coshub(mnemonic) {
 
-async function setup_coshub() {
-
-  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(config.cos_mnemonic, {
+  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
     prefix: config.cosbech32prefix,
   });
 
@@ -101,25 +101,32 @@ async function setup_coshub() {
     }
   )
 
-  addr_atom_wallet = address;
-  signingClient = client;
-  console.log("address: " + addr_atom_wallet)
+  //addr_atom_wallet = address;
+  console.log("address: " + address)
   return { address, client };
 }
 
 //const { address, client } = await setup_coshub();
 
-async function getAtomBalance() {
+async function getAtomBalance(signingClient, addr_atom_wallet) {
   const { denom, amount } = await signingClient.getBalance(addr_atom_wallet, config.atomDenom);
   return { atombalance: amount }
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function main () {
+  let { address : addr_atom_wallet_for_juno, client: signingClient_for_juno} = await setup_coshub(config.cos_mnemonic_for_juno)
+  let { address: addr_atom_wallet_for_osmo, client: signingClient_for_osmo} = await setup_coshub(config.cos_mnemonic_for_osmo)
+
   while (true) 
   {
     console.log("======================================")
     try {
-        await main_coshub();
+        await main_coshub(addr_atom_wallet_for_juno, signingClient_for_juno, addr_juno_recipient, 'channel-207', config.cos_mnemonic_for_juno);
+        await main_coshub(addr_atom_wallet_for_osmo, signingClient_for_osmo, addr_osmo_recipient, 'channel-141', config.cos_mnemonic_for_osmo);
     } catch (error) {
         console.log(error)
     }
