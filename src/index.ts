@@ -15,8 +15,8 @@ let wasmChainClient: SigningStargateClient = null
 let addr_atom_wallet: any = null;
 let signingClient: any = null;
 
-//let addr_juno_wallet = 'juno15tl3jjhmf9tl2k6qkgfs3ky4lk9rfrkzahd0a5';
 const addr_juno_wallet = 'juno1g0r0qdz6x0krgsg7vgvtruv7xrtpdah66fxshvxcchal3wtzq3ystr5jht';
+const addr_osmo_wallet = 'osmo1czyqlaj5q4ug006veryuffaxj25jayzj7t9qs4yyssp4m9hjkhus37gnyl';
 
 const config = {
   endpoint: RPC,
@@ -49,6 +49,7 @@ async function main_coshub() {
   return await wasmChainClient.sendIbcTokens(
     addr_atom_wallet,
     addr_juno_wallet,
+    //addr_osmo_wallet,
     {
       amount: tokenAmount.toString()
       // convertDenomToMicroDenom(
@@ -60,7 +61,8 @@ async function main_coshub() {
       denom: 'uatom' //tokenInfo.denom,
     },
     'transfer',
-    'channel-207', //tokenInfo.channel,
+    'channel-207', //juno channel
+    //'channel-141', //osmosis channel
     undefined,
     timeout,
     'auto'
